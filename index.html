@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>十天六级核心词</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-mark">C6</span>
+        <div>
+          <strong>十天六级核心词</strong>
+          <span>3000 words sprint</span>
+        </div>
+      </div>
+      <nav class="nav-tabs">
+        <button class="nav-tab is-active" data-view="today" type="button">今日</button>
+        <button class="nav-tab" data-view="study" type="button">学习</button>
+        <button class="nav-tab" data-view="review" type="button">复习</button>
+        <button class="nav-tab" data-view="bank" type="button">词库</button>
+        <button class="nav-tab" data-view="settings" type="button">设置</button>
+      </nav>
+      <div class="sidebar-footer">
+        <span id="browserStatus">检测发音能力中</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="view is-visible" id="view-today" aria-labelledby="todayTitle">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">10 天计划</p>
+            <h1 id="todayTitle">今日任务</h1>
+          </div>
+          <button class="icon-button" id="resetBtn" type="button" title="重置进度" aria-label="重置进度">↺</button>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="hero-panel">
+            <div class="hero-copy">
+              <p class="eyebrow">Day <span id="currentDayText">1</span> / 10</p>
+              <h2 id="heroTitle">开始今天的 6 组训练</h2>
+              <p id="heroSub">每组 50 词，新词和复习词混合出现。</p>
+            </div>
+            <div class="ring" aria-label="总进度">
+              <svg viewBox="0 0 120 120" role="img" aria-hidden="true">
+                <circle class="ring-bg" cx="60" cy="60" r="51"></circle>
+                <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="51"></circle>
+              </svg>
+              <strong id="overallPercent">0%</strong>
+            </div>
+          </section>
+
+          <section class="stats-row" aria-label="学习统计">
+            <div class="stat"><span>已学</span><strong id="learnedCount">0</strong></div>
+            <div class="stat"><span>掌握</span><strong id="knownCount">0</strong></div>
+            <div class="stat"><span>待复习</span><strong id="dueCount">0</strong></div>
+            <div class="stat"><span>重点</span><strong id="starredCount">0</strong></div>
+          </section>
+
+          <section class="sessions" id="sessionList" aria-label="今日分组"></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-study" aria-labelledby="studyTitle">
+        <div class="topbar compact">
+          <div>
+            <p class="eyebrow" id="studyMeta">Day 1 · Session 1</p>
+            <h1 id="studyTitle">单词卡片</h1>
+          </div>
+          <button class="pill-button" id="finishSessionBtn" type="button">结束本组</button>
+        </div>
+
+        <div class="study-layout">
+          <article class="word-card" id="wordCard">
+            <div class="card-head">
+              <span id="wordIndex">1 / 50</span>
+              <button class="icon-button" id="speakBtn" type="button" title="播放发音" aria-label="播放发音">▶</button>
+            </div>
+            <div class="word-main">
+              <h2 id="wordText">abandon</h2>
+              <p id="phoneticText">/əˈbændən/</p>
+            </div>
+            <div class="meaning-area" id="meaningArea" hidden>
+              <p class="meaning" id="meaningText"></p>
+              <p class="en-meaning" id="englishMeaningText"></p>
+              <blockquote id="exampleText"></blockquote>
+              <p class="example-cn" id="exampleCnText"></p>
+              <p class="phrase" id="phraseText"></p>
+            </div>
+          </article>
+
+          <div class="action-panel">
+            <div class="segmented" role="group" aria-label="熟悉程度">
+              <button type="button" data-grade="known">认识</button>
+              <button type="button" data-grade="fuzzy">模糊</button>
+              <button type="button" data-grade="unknown">不认识</button>
+            </div>
+            <button class="primary-button" id="revealBtn" type="button">查看释义</button>
+            <div class="card-actions">
+              <button class="ghost-button" id="againBtn" type="button">再来一次</button>
+              <button class="ghost-button" id="starBtn" type="button">加入重点</button>
+              <button class="primary-button" id="nextBtn" type="button">下一个</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-review" aria-labelledby="reviewTitle">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Review queue</p>
+            <h1 id="reviewTitle">复习队列</h1>
+          </div>
+          <button class="pill-button" id="reviewNowBtn" type="button">开始复习</button>
+        </div>
+        <div class="word-list" id="reviewList"></div>
+      </section>
+
+      <section class="view" id="view-bank" aria-labelledby="bankTitle">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Vocabulary bank</p>
+            <h1 id="bankTitle">词库</h1>
+          </div>
+          <label class="file-button">
+            导入词库
+            <input id="importInput" type="file" accept=".json,.csv,text/csv,application/json">
+          </label>
+        </div>
+        <div class="notice">
+          <strong>词库格式</strong>
+          <span>JSON 数组或 CSV：word,phonetic,meaning,englishMeaning,example,exampleCn,phrase。导入后会自动切分为 10 天 × 6 组。</span>
+        </div>
+        <div class="toolbar">
+          <input id="searchInput" type="search" placeholder="搜索单词或释义">
+          <button class="ghost-button" id="exportBtn" type="button">导出进度</button>
+        </div>
+        <div class="word-list" id="bankList"></div>
+      </section>
+
+      <section class="view" id="view-settings" aria-labelledby="settingsTitle">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Safari / Edge</p>
+            <h1 id="settingsTitle">发音和学习设置</h1>
+          </div>
+        </div>
+        <div class="settings-grid">
+          <label class="setting-row">
+            <span>自动发音</span>
+            <input id="autoSpeakToggle" type="checkbox">
+          </label>
+          <label class="setting-row">
+            <span>美音优先</span>
+            <input id="usVoiceToggle" type="checkbox">
+          </label>
+          <label class="setting-row">
+            <span>语速</span>
+            <input id="rateRange" type="range" min="0.65" max="1.1" step="0.05">
+          </label>
+          <div class="setting-row backup-row">
+            <span>学习记录</span>
+            <div class="setting-actions">
+              <button class="ghost-button" id="backupBtn" type="button">备份进度</button>
+              <label class="file-button">
+                恢复进度
+                <input id="restoreInput" type="file" accept=".json,application/json">
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="notice">
+          <strong>兼容说明</strong>
+          <span>Edge 通常可直接播放。Safari 可能需要先点击一次播放按钮来授权声音，部分 iOS 版本不允许页面自动发音。</span>
+        </div>
+        <div class="notice">
+          <strong>备份说明</strong>
+          <span>进度默认保存在当前浏览器。备份文件可用于换电脑、换浏览器或清理缓存前迁移学习记录。</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
