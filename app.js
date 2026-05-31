@@ -345,6 +345,7 @@
   var vocab = loadVocab();
   var state = loadState();
   var voices = [];
+  var hasSavedVocab = !!localStorage.getItem(VOCAB_KEY);
 
   var el = {};
   document.addEventListener("DOMContentLoaded", init);
@@ -355,6 +356,7 @@
     loadVoices();
     renderAll();
     buildQueue(state.activeDay, state.activeSession, false);
+    loadBundledVocab();
   }
 
   function bindElements() {
@@ -777,6 +779,27 @@
     } catch (error) {
       return buildShuffledDefaultVocab();
     }
+  }
+
+  function loadBundledVocab() {
+    if (hasSavedVocab || !window.fetch) return;
+    fetch("./data/cet6_core_3000.json", { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("vocab not found");
+        return response.json();
+      })
+      .then(function (items) {
+        if (!items || !items.length) return;
+        vocab = items.slice(0, 3000);
+        localStorage.setItem(VOCAB_KEY, JSON.stringify(vocab));
+        state.activeDay = 1;
+        state.activeSession = 1;
+        buildQueue(1, 1, true);
+        renderAll();
+      })
+      .catch(function () {
+        el.heroSub.textContent = "当前使用内置样例词库。部署到网页后会自动加载 3000 词库，也可以手动导入 CSV/JSON。";
+      });
   }
 
   function buildShuffledDefaultVocab() {
