@@ -32,17 +32,6 @@ styles.css
 app.js
 ```
 
-## 部署到 GitHub Pages
-
-1. 新建 GitHub 仓库。
-2. 上传本项目中的所有文件。
-3. 进入仓库的 `Settings`。
-4. 打开 `Pages`。
-5. Source 选择 `Deploy from a branch`。
-6. Branch 选择 `main`，目录选择 `/root`。
-7. 保存后等待 GitHub 生成访问链接。
-
-部署后，别人访问你的 GitHub Pages 链接即可学习。
 
 ## 学习记录保存在哪里
 
