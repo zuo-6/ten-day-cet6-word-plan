@@ -15,6 +15,7 @@
 - 本地保存学习进度
 - 备份和恢复学习记录
 - 支持 Safari 和 Edge
+- 默认内置 3000 词核心词库
 
 ## 直接使用
 
@@ -32,6 +33,17 @@ styles.css
 app.js
 ```
 
+## 部署到 GitHub Pages
+
+1. 新建 GitHub 仓库。
+2. 上传本项目中的所有文件。
+3. 进入仓库的 `Settings`。
+4. 打开 `Pages`。
+5. Source 选择 `Deploy from a branch`。
+6. Branch 选择 `main`，目录选择 `/root`。
+7. 保存后等待 GitHub 生成访问链接。
+
+部署后，别人访问你的 GitHub Pages 链接即可学习。
 
 ## 学习记录保存在哪里
 
@@ -46,7 +58,28 @@ app.js
 
 如果需要换设备或备份记录，请在网站的“设置”页使用“备份进度”和“恢复进度”。
 
-## 导入 3000 词库
+## 内置 3000 词库
+
+项目默认包含：
+
+```text
+data/cet6_core_3000.json
+data/cet6_core_3000.csv
+```
+
+词库整理规则：
+
+- 词头来源边界：官方《全国大学英语四、六级考试大纲（2016年修订版）》词汇表。
+- 六级优先：优先选入官方词表中带六级标记的词。
+- 信息补充：音标、中文释义、英文释义来自 MIT License 的 ECDICT。
+- 数量控制：去重后按六级标记、考试标签和词频补足 3000 词。
+
+数据来源：
+
+- 全国大学英语四、六级考试大纲：https://www.neea.edu.cn/res/Home/1704/55b02330ac17274664f06d9d3db8249d.pdf
+- ECDICT：https://github.com/skywind3000/ECDICT
+
+## 导入自己的 3000 词库
 
 网站支持导入 JSON 或 CSV。
 
